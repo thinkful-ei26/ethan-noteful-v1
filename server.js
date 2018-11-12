@@ -13,8 +13,8 @@ console.log('Hello Noteful!');
 
 app.use(express.static('public'));
 
-app.get('/api/notes', (req, res) => {
-  res.json(data);
+app.get('/api/notes/:id', (req, res) => {
+  res.json(data.find(item => item.id === parseInt(req.params.id)));
 });
 
 app.listen(8080, function(){
