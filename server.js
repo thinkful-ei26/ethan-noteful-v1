@@ -7,7 +7,7 @@ const data = require('./db/notes');
 
 const app = express();
 
-console.log('Hello Noteful!');
+// console.log('Hello Noteful!');
 
 // INSERT EXPRESS APP CODE HERE...
 
