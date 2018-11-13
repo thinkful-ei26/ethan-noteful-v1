@@ -19,6 +19,7 @@ app.use(express.static('public'));
 
 app.get('/api/notes/', (req, res) => {
   // console.log(req.query);
+  // const { searchTerm } = req.params;
   if (req.query.searchTerm){
     res.json(data.filter(item => item.title.includes(req.query.searchTerm) || item.content.includes(req.query.searchTerm)));
   } else {
