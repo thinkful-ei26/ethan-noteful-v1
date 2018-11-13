@@ -59,7 +59,7 @@ app.get('/api/notes/:id', (req, res, next) => {
   }); 
 });
 
-app.put('/api/notes:id', (req, res, next) =>{
+app.put('/api/notes/:id', (req, res, next) =>{
   const id = req.params.id;
   const updateObj = {};
   const updateFields = ['title', 'content'];
