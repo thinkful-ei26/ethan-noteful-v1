@@ -43,6 +43,13 @@ app.get('/api/notes', (req, res, next) => {
     }
     res.json(list);
   });
+
+  // notes.filter(req.query.searchTerm, (err, list) => {
+  //   if (err) {
+  //     return next(err);
+  //   }
+  //   res.json(list);
+  // });
 });
 
 // app.get('/boom', (req, res, next) =>{
