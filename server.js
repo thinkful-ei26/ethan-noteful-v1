@@ -63,6 +63,7 @@ app.put('/api/notes/:id', (req, res, next) =>{
   const id = req.params.id;
   const updateObj = {};
   const updateFields = ['title', 'content'];
+  console.log(req.body);
   updateFields.forEach(field => {
     if (field in req.body) {
       updateObj[field] = req.body[field];
@@ -77,6 +78,7 @@ app.put('/api/notes/:id', (req, res, next) =>{
       next();
     }
   });
+  console.log(updateObj);
 });
 
 app.use(function (req, res, next){
