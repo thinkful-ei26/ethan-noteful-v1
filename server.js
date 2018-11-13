@@ -39,6 +39,7 @@ app.use(function (req, res, next){
   res.status(404).json({message: 'Not Found'});
 });
 
+app
 
 app.listen(PORT, function(){
   console.info(`Server listening on ${this.address().port}`);
