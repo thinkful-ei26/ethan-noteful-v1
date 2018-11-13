@@ -14,9 +14,12 @@ const app = express();
 
 // INSERT EXPRESS APP CODE HERE...
 
+app.use(logger);
+
 app.use(express.static('public'));
 
-app.use(logger);
+app.use(express.json());
+
 
 // app.get('/api/notes/:id', (req, res) => {
 //   res.json(data.find(item => item.id === parseInt(req.params.id)));
@@ -47,12 +50,33 @@ app.get('/api/notes', (req, res, next) => {
 // });
 
 app.get('/api/notes/:id', (req, res, next) => {
-  notes.find(req.params.id, (err, list) => {
+  const id = req.params.id;
+  notes.find(id, (err, list) => {
     if (err) {
       return next(err);
     }
     res.json(list);
   }); 
+});
+
+app.put('/api/notes:id', (req, res, next) =>{
+  const id = req.params.id;
+  const updateObj = {};
+  const updateFields = ['title', 'content'];
+  updateFields.forEach(field => {
+    if (field in req.body) {
+      updateObj[field] = req.body[field];
+    }
+  });
+  notes.update(id, updateObj, (err, item) => {
+    if (err) {
+      return next(err);
+    } if (item) {
+      res.json(item);
+    } else {
+      next();
+    }
+  });
 });
 
 app.use(function (req, res, next){
