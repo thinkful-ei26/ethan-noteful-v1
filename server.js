@@ -15,14 +15,8 @@ console.log('Hello Noteful!');
 
 const notesRouter = require('./router/notes.router');
 
-// console.log('Hello Noteful!');
-
 
 const app = express();
-
-// console.log('Hello Noteful!');
-
-// INSERT EXPRESS APP CODE HERE...
 
 // app.use(logger);
 
@@ -32,7 +26,7 @@ app.use(express.static('public'));
 
 app.use(express.json());
 
-app.use('/api/notes', notesRouter);
+app.use('/api', notesRouter);
 
 
 // app.use(notesRouter('/api/notes'));

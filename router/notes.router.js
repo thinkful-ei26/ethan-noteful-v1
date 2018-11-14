@@ -7,7 +7,7 @@ const data = require('../db/notes');
 const simDB = require('../db/simDB');
 const notes = simDB.initialize(data);
 
-router.get('/', (req, res, next) => { 
+router.get('/notes', (req, res, next) => { 
   const { searchTerm } = req.query;
   notes.filter(searchTerm, (err, list) => {
     if (err) {
@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/notes/:id', (req, res, next) => {
   const id = req.params.id;
   notes.find(id, (err, list) => {
     if (err) {
@@ -27,7 +27,7 @@ router.get('/:id', (req, res, next) => {
   }); 
 });
 
-router.put('/:id', (req, res, next) =>{
+router.put('/notes/:id', (req, res, next) => {
   const id = req.params.id;
   const updateObj = {};
   const updateFields = ['title', 'content'];
@@ -47,6 +47,20 @@ router.put('/:id', (req, res, next) =>{
     }
   });
   console.log(updateObj);
+});
+
+
+router.post('/notes/:id')
+
+router.delete('/notes/:id', (req, res, next) => {
+  const id = req.params.id;
+  notes.delete(id, err => {
+    if (err) {
+      return next(err);
+    } else {
+      res.status(204).end();
+    }
+  });
 });
 
 module.exports = router;
