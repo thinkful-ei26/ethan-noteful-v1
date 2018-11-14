@@ -2,6 +2,8 @@
 
 // Load array of notes
 const express = require('express');
+const morgan = require('morgan');
+
 const data = require('./db/notes');
 const { PORT } = require('./config');
 const { logger } = require('./middleware/logger');
@@ -14,7 +16,9 @@ const app = express();
 
 // INSERT EXPRESS APP CODE HERE...
 
-app.use(logger);
+// app.use(logger);
+
+app.use(morgan('dev'));
 
 app.use(express.static('public'));
 

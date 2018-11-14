@@ -2,8 +2,7 @@
 
 const logger = function (req, res, next){
   const time = new Date();
-  console.log(
-    `${time.toLocaleDateString()} ${time.toLocaleTimeString()} ${req.method} ${req.url}`);
+  console.log(`${time.toLocaleDateString()} ${time.toLocaleTimeString()} ${req.method} ${req.url}`);
   next();
 };
 
