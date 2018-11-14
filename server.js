@@ -11,7 +11,7 @@ const { PORT } = require('./config');
 // const simDB = require('./db/simDB');
 // const notes = simDB.initialize(data);
 
-console.log('Hello Noteful!');
+// console.log('Hello Noteful!');
 
 const notesRouter = require('./router/notes.router');
 
