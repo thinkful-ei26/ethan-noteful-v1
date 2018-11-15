@@ -82,34 +82,36 @@ const noteful = (function () {
       };
       noteObj.id = store.currentNote.id;
       if (noteObj.id){
-        api.update(noteObj.id, noteObj, updateResponse => {
-          store.currentNote = updateResponse;
-          // api.search(store.currentSearchTerm, searchResponse => {
-          //   store.notes = searchResponse;
-          //   render();
-          // });
-          api.search(store.currentSearchTerm)
+        api.update(noteObj.id, noteObj)
+          .then(updateResponse => {
+            store.currentNote = updateResponse;
+          })
+          .then(api.search(store.currentSearchTerm)
             .then(searchResponse => {
               store.notes = searchResponse;
               render();
-            });
-        });
-      } else {
-        api.create(noteObj, createResponse => {
-          store.currentNote = createResponse;
-          // api.search(store.currentSearchTerm, searchResponse => {
-          //   store.notes = searchResponse;
-          //   render();
-          // });
-          api.search(store.currentSearchTerm)
+            }));
+      } 
+      else {
+        api.create(noteObj)
+          .then(createResponse => {
+            store.currentNote = createResponse;
+          })
+          .then(api.search(store.currentSearchTerm)
             .then(searchResponse => {
               store.notes = searchResponse;
               render();
-            });
-        });
+            }));
       }
-    });
+    }
+    );
   }
+
+
+  // api.search(store.currentSearchTerm, searchResponse => {
+  //   store.notes = searchResponse;
+  //   render();
+  // });
 
   function handleNoteStartNewSubmit() {
     $('.js-start-new-note-form').on('submit', event => {
