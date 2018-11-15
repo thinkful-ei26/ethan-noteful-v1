@@ -85,26 +85,25 @@ const noteful = (function () {
         api.update(noteObj.id, noteObj)
           .then(updateResponse => {
             store.currentNote = updateResponse;
+            return api.search(store.currentSearchTerm);
           })
-          .then(api.search(store.currentSearchTerm)
-            .then(searchResponse => {
-              store.notes = searchResponse;
-              render();
-            }));
+          .then(searchResponse => {
+            store.notes = searchResponse;
+            render();
+          });
       } 
       else {
         api.create(noteObj)
           .then(createResponse => {
             store.currentNote = createResponse;
+            return api.search(store.currentSearchTerm);
           })
-          .then(api.search(store.currentSearchTerm)
-            .then(searchResponse => {
-              store.notes = searchResponse;
-              render();
-            }));
+          .then(searchResponse => {
+            store.notes = searchResponse;
+            render();
+          });
       }
-    }
-    );
+    });
   }
 
 
@@ -125,17 +124,21 @@ const noteful = (function () {
     $('.js-notes-list').on('click', '.js-note-delete-button', event => {
       event.preventDefault();
       const noteID = getNoteIdFromElement(event.currentTarget);
-      api.remove(noteID, () => {
-        api.search(store.currentSearchTerm, searchResponse => {
+      api.remove(noteID)
+        .then(() => api.search(store.currentSearchTerm))
+        .then(searchResponse => {
           store.notes = searchResponse;
           if (noteID === store.currentNote.id){
             store.currentNote = {};
           }
           render();
         });
-      });
     });
   }
+
+
+  // api.search(store.currentSearchTerm, searchResponse => {
+  //   //   store.notes = searchResponse;
 
   function bindEventListeners() {
     handleNoteItemClick();
