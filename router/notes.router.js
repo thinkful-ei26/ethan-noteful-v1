@@ -9,12 +9,19 @@ const notes = simDB.initialize(data);
 
 router.get('/notes', (req, res, next) => { 
   const { searchTerm } = req.query;
-  notes.filter(searchTerm, (err, list) => {
-    if (err) {
-      return next(err);
-    }
-    res.json(list);
-  });
+  notes.find(searchTerm)
+    .then(list => {
+      res.json(list);
+    })
+    .catch(err => {
+      next(err);
+    });
+  // notes.filter(searchTerm, (err, list) => {
+  //   if (err) {
+  //     return next(err);
+  //   }
+  //   res.json(list);
+  // });
 });
 
 router.get('/notes/:id', (req, res, next) => {
@@ -48,7 +55,7 @@ router.put('/notes/:id', (req, res, next) => {
       updateObj[field] = req.body[field];
     }
   });
-  notes.update(id)
+  notes.update(id, updateObj)
     .then(item => {
       if(item) {
         res.json(item);
