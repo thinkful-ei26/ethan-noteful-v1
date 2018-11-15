@@ -58,11 +58,6 @@ const noteful = (function () {
       const searchTerm = $('.js-note-search-entry').val();
       store.currentSearchTerm = searchTerm ? { searchTerm } : {};
 
-      // api.search(store.currentSearchTerm, searchResponse => {
-      //   store.notes = searchResponse;
-      //   render();
-      // });
-
       api.search(store.currentSearchTerm)
         .then(searchResponse => {
           store.notes = searchResponse;
