@@ -54,7 +54,8 @@ describe('GET all tests', function (){
       .then(function(res){
         expect(res).to.be.json;
         expect(res.body).to.be.a('array');
-        expect(res.body[0]).to.be.a('object');
+        // expect(res.body[0]).to.be.a('object');
+        res.body.forEach(item => expect(item).to.to.be.a('object'));
         expect(res.body.length).to.eq(10);
       });
   });
@@ -63,11 +64,37 @@ describe('GET all tests', function (){
     return chai.request(app)
       .get('/api/notes')
       .then(function(res){
-        expect(res).to.be.json;
-        expect(res.body).to.be.a('array');
-        expect(res.body[0]).to.be.a('object');
-        expect(res.body.length).to.eq(10);
+        // expect(res.body[0]).to.include.keys('id', 'title', 'content');
+        // expect(res.body.forEach(item => item.to.include.keys('id', 'title', 'content')));
+        res.body.forEach(function(item) {
+          expect(item).to.include.keys('id', 'title', 'content')
+        });
+        // expect(res.body.length).to.eq(10);
+        // expect(res.body.length).to.eq(0);
       });
   });
+
+
+  it('should return results for a correct search term', function (){
+    const searchTerm = 'cat';
+    return chai.request(app)
+      .get(`/api/notes/?searchTerm=${searchTerm}`)
+      .then(function(res){
+        expect(res.body.length).to.be.above(0);
+        res.body.forEach(function(item) {
+          expect(item.title).to.include(searchTerm);
+        });
+      });
+  });
+
+  it('should return an empty array for incorrect search term', function (){
+    const searchTerm = 'america';
+    return chai.request(app)
+      .get(`/api/notes/?searchTerm=${searchTerm}`)
+      .then(function(res){
+        expect(res.body.length).to.eq(0);
+      });
+  });
+
 
 });
