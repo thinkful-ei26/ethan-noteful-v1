@@ -67,7 +67,7 @@ describe('GET all tests', function (){
         // expect(res.body[0]).to.include.keys('id', 'title', 'content');
         // expect(res.body.forEach(item => item.to.include.keys('id', 'title', 'content')));
         res.body.forEach(function(item) {
-          expect(item).to.include.keys('id', 'title', 'content')
+          expect(item).to.include.keys('id', 'title', 'content');
         });
         // expect(res.body.length).to.eq(10);
         // expect(res.body.length).to.eq(0);
@@ -95,6 +95,62 @@ describe('GET all tests', function (){
         expect(res.body.length).to.eq(0);
       });
   });
+
+
+});
+
+describe('GET specific ID tests', function(){
+
+  it('should return a correct note object with id, title and content for a given id', function(){
+    const itemID = '1001';
+    const specificItem = {};
+    return (
+      chai
+        .request(app)
+        .get(`/api/notes/${itemID}`)
+        .then(function(res){
+          // console.log(res.body);
+          specificItem.id = res.body.id;
+          specificItem.title = res.body.title;
+          specificItem.content = res.body.content;
+          console.log(specificItem);
+          return chai
+            .request(app)
+            .get('/api/notes')
+            .then(function(res){
+              // console.log(res.body[1]);
+              const matchedItem = res.body.filter(function (item) {
+                return item.title === specificItem.title && item.id === specificItem.id && item.content === specificItem.content;
+              });
+              console.log(matchedItem);
+              expect(matchedItem.length).to.eq(1);
+            });
+        }));
+  });
+
+  it('should return a 404 for an invalid ID', function(){
+    const itemID = 11000;
+    return chai.request(app)
+      .get(`/api/notes/${itemID}`)
+      .then(function(res){
+        expect(res).to.have.status(404);
+      });
+  });
+});
+
+describe('POST new notes', function(){
+
+  it('should create and return a new item with location header when provided valid data', function(){
+    const newItem = {title: 'foo', content: 'bar'};
+    return chai.request(app)
+      .post('/api/notes/')
+      .send(newItem)
+      .then(function(res){
+        expect(res).to.have.status(201);
+        expect(res.location).to.exist;
+      });
+  });
+
 
 
 });

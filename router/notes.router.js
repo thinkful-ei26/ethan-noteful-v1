@@ -11,7 +11,7 @@ router.get('/notes', (req, res, next) => {
   const { searchTerm } = req.query;
   notes.filter(searchTerm)
     .then(list => {
-      console.log(list);
+      // console.log(list);
       res.json(list);
     })
     .catch(err => {
@@ -50,7 +50,7 @@ router.put('/notes/:id', (req, res, next) => {
   const id = req.params.id;
   const updateObj = {};
   const updateFields = ['title', 'content'];
-  console.log(req.body);
+  // console.log(req.body);
   updateFields.forEach(field => {
     if (field in req.body) {
       updateObj[field] = req.body[field];
@@ -76,7 +76,7 @@ router.put('/notes/:id', (req, res, next) => {
   //     next();
   //   }
   // });
-  console.log(updateObj);
+  // console.log(updateObj);
 });
 
 
