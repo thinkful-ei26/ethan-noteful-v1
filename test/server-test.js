@@ -113,7 +113,7 @@ describe('GET specific ID tests', function(){
           specificItem.id = res.body.id;
           specificItem.title = res.body.title;
           specificItem.content = res.body.content;
-          console.log(specificItem);
+          // console.log(specificItem);
           return chai
             .request(app)
             .get('/api/notes')
@@ -122,7 +122,7 @@ describe('GET specific ID tests', function(){
               const matchedItem = res.body.filter(function (item) {
                 return item.title === specificItem.title && item.id === specificItem.id && item.content === specificItem.content;
               });
-              console.log(matchedItem);
+              // console.log(matchedItem);
               expect(matchedItem.length).to.eq(1);
             });
         }));
@@ -147,7 +147,8 @@ describe('POST new notes', function(){
       .send(newItem)
       .then(function(res){
         expect(res).to.have.status(201);
-        expect(res.location).to.exist;
+        console.log(res);
+        expect(res.headers).to.exist;
       });
   });
 
