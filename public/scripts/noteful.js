@@ -13,7 +13,7 @@ const noteful = (function () {
     editForm.find('.js-note-content-entry').val(store.currentNote.content);
   }
 
-  /**
+  /*
    * GENERATE HTML FUNCTIONS
    */
   function generateNotesList(list, currentNote) {
